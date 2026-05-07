@@ -62,7 +62,7 @@
                     <input type="text" placeholder="Calle y número" required>
                 </div>
 
-                <p class="add-extra">+ Añadir apartamento, habitación, escalera, etc.</p>
+                <p class="add-extra" style="cursor:pointer; color:#0066cc; font-size:13px; margin-bottom:15px;">+ Añadir apartamento, habitación, escalera, etc.</p>
 
                 <div class="field-row">
                     <div class="field-group">
@@ -88,19 +88,19 @@
 
                 <div class="payment-methods" style="margin-top:40px;">
                     <h3>Opciones de pago</h3>
-                    <div class="card-payment-box">
+                    <div class="card-payment-box" style="border:1px solid #ddd; padding:20px; border-radius:4px; background:#f9f9f9;">
                         <label style="font-weight:bold; display:block; margin-bottom:10px;">Tarjeta de crédito / débito</label>
                         <div class="card-inputs">
-                            <input type="text" placeholder="Número de tarjeta (16 dígitos)" maxlength="16" style="margin-bottom:10px;">
-                            <div class="field-row">
-                                <input type="text" placeholder="MM/AA" style="width: 48%;">
-                                <input type="text" placeholder="CVC" style="width: 48%;">
+                            <input type="text" placeholder="Número de tarjeta (16 dígitos)" maxlength="16" style="margin-bottom:10px; width:100%; padding:8px;">
+                            <div class="field-row" style="display:flex; gap:10px;">
+                                <input type="text" placeholder="MM/AA" style="width: 48%; padding:8px;">
+                                <input type="text" placeholder="CVC" style="width: 48%; padding:8px;">
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <button type="submit" class="btn-order">Realizar el pedido</button>
+                <button type="submit" class="btn-order" style="margin-top:20px; background:#0066cc; color:white; padding:15px 30px; border:none; border-radius:4px; cursor:pointer; width:100%; font-weight:bold;">Realizar el pedido</button>
             </div>
 
             <div class="order-summary-box">
@@ -108,16 +108,16 @@
                 <div id="summary-items">
                     </div>
                 
-                <div class="coupon-section" style="border-top: 1px solid #eee; margin-top:15px;">
+                <div class="coupon-section" style="border-top: 1px solid #eee; margin-top:15px; padding-top:10px; display:flex; justify-content:space-between; cursor:pointer;">
                     <span>Añadir cupones</span>
                     <span>∨</span>
                 </div>
 
-                <div class="summary-row">
+                <div class="summary-row" style="display:flex; justify-content:space-between; margin-top:15px;">
                     <span>Subtotal</span>
                     <span id="subtotal-val">0,00 €</span>
                 </div>
-                <div class="summary-row total">
+                <div class="summary-row total" style="display:flex; justify-content:space-between; margin-top:10px; border-top:1px solid #eee; padding-top:10px; font-weight:bold;">
                     <span>Total</span>
                     <span id="total-val" style="font-size: 24px;">0,00 €</span>
                 </div>
@@ -133,7 +133,6 @@
 
     <script>
         function loadSummary() {
-            // Buscamos el mismo carrito que usa el Index y el Carrito
             let cart = JSON.parse(localStorage.getItem('futbolCart')) || [];
             let container = document.getElementById('summary-items');
             let subtotalDisplay = document.getElementById('subtotal-val');
@@ -143,21 +142,23 @@
             container.innerHTML = '';
 
             if (cart.length === 0) {
-                container.innerHTML = '<p style="font-size:13px; color:#888;">No hay productos.</p>';
+                container.innerHTML = '<p style="font-size:13px; color:#888;">No hay productos en el pedido.</p>';
             }
 
             cart.forEach(item => {
                 totalVal += item.price;
-                // Estructura idéntica a tu captura image_df2111.png
+                // CORRECCIÓN: Si item.img falla, intenta buscar en la carpeta fotos/
                 container.innerHTML += `
                     <div class="summary-item" style="display:flex; gap:15px; margin-bottom:15px; align-items:center;">
                         <div style="position:relative;">
-                            <img src="${item.img}" style="width:50px; height:50px; border-radius:4px; object-fit:cover; border:1px solid #ddd;">
+                            <img src="${item.img}" 
+                                 onerror="this.src='fotos/${item.img.split('/').pop()}';"
+                                 style="width:50px; height:50px; border-radius:4px; object-fit:cover; border:1px solid #ddd;">
                             <span style="position:absolute; top:-8px; right:-8px; background:#666; color:white; border-radius:50%; width:18px; height:18px; font-size:10px; display:flex; align-items:center; justify-content:center;">1</span>
                         </div>
                         <div style="flex:1;">
                             <p style="margin:0; font-size:14px; font-weight:500;">${item.name}</p>
-                            <p style="margin:2px 0 0 0; font-size:12px; color:#777;">Poster del nuevo fichaje.</p>
+                            <p style="margin:2px 0 0 0; font-size:11px; color:#777;">Poster del nuevo fichaje.</p>
                         </div>
                         <div style="font-size:14px; font-weight:500;">${item.price.toFixed(2).replace('.', ',')} €</div>
                     </div>`;
@@ -167,11 +168,10 @@
             totalDisplay.innerText = totalVal.toFixed(2).replace('.', ',') + ' €';
         }
 
-        // Simular envío
         document.getElementById('order-form').onsubmit = (e) => {
             e.preventDefault();
-            alert("¡Pedido realizado con éxito!");
-            localStorage.removeItem('futbolCart'); // Vaciamos al terminar
+            alert("¡Pedido realizado con éxito! Gracias por tu compra.");
+            localStorage.removeItem('futbolCart');
             location.href = 'index.html';
         };
 
