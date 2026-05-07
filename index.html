@@ -8,25 +8,6 @@
 </head>
 <body>
 
-    <div id="wp-admin-bar-sim">
-        <div class="left">
-            <span class="icon">w</span>
-            <span>Mundo Fútbol <span class="status">Visible</span></span>
-            <span class="icon">P</span>
-            <span>Editar la página</span>
-        </div>
-        <div class="right">
-            <span>Hola, Toni</span>
-        </div>
-    </div>
-
-    <div id="cookie-banner" class="cookie-overlay">
-        <div class="cookie-box">
-            <p>Utilizamos cookies para mejorar su experiencia futbolística. ¿Aceptas?</p>
-            <button onclick="acceptCookies()">Aceptar</button>
-        </div>
-    </div>
-
     <header>
         <div class="container header-container">
             <h1 class="logo" onclick="location.href='index.html'">Mundo Fútbol</h1>
@@ -105,14 +86,8 @@
             document.getElementById('cart-count').innerText = cart.length;
         }
 
-        function acceptCookies() {
-            document.getElementById('cookie-banner').style.display = 'none';
-            localStorage.setItem('cookiesAcceptedFutbol', 'true');
-        }
-
         window.onload = () => {
             updateCount();
-            if(localStorage.getItem('cookiesAcceptedFutbol')) document.getElementById('cookie-banner').style.display = 'none';
         }
     </script>
 </body>
