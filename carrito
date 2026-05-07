@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Finalizar Compra - Mundo Fútbol</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="logo" onclick="location.href='index.html'" style="cursor:pointer">Mundo Fútbol</h1>
+            <nav>
+                <ul><li><a href="index.html">Volver a la Tienda</a></li></ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container checkout-container">
+        <div class="checkout-left">
+            <h3>Información de facturación</h3>
+            <form id="payment-form">
+                <input type="email" placeholder="Correo electrónico" required>
+                <div class="row">
+                    <input type="text" placeholder="Nombre" required>
+                    <input type="text" placeholder="Apellidos" required>
+                </div>
+                <input type="text" placeholder="Dirección" required>
+                
+                <h3 style="margin-top:30px">Método de Pago</h3>
+                <div class="card-element">
+                    <input type="text" placeholder="Número de tarjeta (XXXX XXXX XXXX XXXX)" required>
+                    <div class="row">
+                        <input type="text" placeholder="MM/AA" style="width:30%" required>
+                        <input type="text" placeholder="CVC" style="width:30%" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn-checkout">Realizar pedido</button>
+            </form>
+        </div>
+
+        <div class="checkout-right" id="order-summary">
+            <h3>Resumen del pedido</h3>
+            <div id="cart-items"></div>
+            <hr>
+            <div class="total-row">
+                <span>Total:</span>
+                <span id="final-price">0.00 €</span>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function renderCart() {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let container = document.getElementById('cart-items');
+            let total = 0;
+            container.innerHTML = '';
+
+            cart.forEach((item, index) => {
+                total += item.price;
+                container.innerHTML += `
+                    <div class="cart-item">
+                        <img src="${item.img}" width="50">
+                        <span>${item.name}</span>
+                        <span>${item.price} €</span>
+                    </div>`;
+            });
+            document.getElementById('final-price').innerText = total.toFixed(2) + ' €';
+        }
+
+        document.getElementById('payment-form').onsubmit = (e) => {
+            e.preventDefault();
+            alert("¡Pago procesado con éxito! Gracias por tu compra en Mundo Fútbol.");
+            localStorage.removeItem('cart');
+            location.href = 'index.html';
+        };
+
+        window.onload = renderCart;
+    </script>
+</body>
+</html>
