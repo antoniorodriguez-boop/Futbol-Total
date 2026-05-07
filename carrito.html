@@ -2,78 +2,111 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Finalizar Compra - Mundo Fútbol</title>
+    <title>Carrito - Mundo Fútbol</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="cart-page">
+
+    <div id="wp-admin-bar-sim">
+        <div class="left">
+            <span>Mundo Fútbol</span>
+            <span>Editar la página</span>
+        </div>
+        <div class="right">Hola, Toni</div>
+    </div>
+
     <header>
-        <div class="container">
-            <h1 class="logo" onclick="location.href='index.html'" style="cursor:pointer">Mundo Fútbol</h1>
+        <div class="container header-container">
+            <h1 class="logo" onclick="location.href='index.html'">Mundo Fútbol</h1>
             <nav>
-                <ul><li><a href="index.html">Volver a la Tienda</a></li></ul>
+                <ul>
+                    <li><a href="carrito.html">Carrito</a></li>
+                    <li><a href="finalizar-compra.html">Finalizar compra</a></li>
+                    <li><a href="#">Mi cuenta</a></li>
+                    <li><a href="index.html">Tienda</a></li>
+                </ul>
             </nav>
         </div>
     </header>
 
-    <main class="container checkout-container">
-        <div class="checkout-left">
-            <h3>Información de facturación</h3>
-            <form id="payment-form">
-                <input type="email" placeholder="Correo electrónico" required>
-                <div class="row">
-                    <input type="text" placeholder="Nombre" required>
-                    <input type="text" placeholder="Apellidos" required>
-                </div>
-                <input type="text" placeholder="Dirección" required>
-                
-                <h3 style="margin-top:30px">Método de Pago</h3>
-                <div class="card-element">
-                    <input type="text" placeholder="Número de tarjeta (XXXX XXXX XXXX XXXX)" required>
-                    <div class="row">
-                        <input type="text" placeholder="MM/AA" style="width:30%" required>
-                        <input type="text" placeholder="CVC" style="width:30%" required>
-                    </div>
-                </div>
-                <button type="submit" class="btn-checkout">Realizar pedido</button>
-            </form>
-        </div>
+    <main class="container main-content">
+        <h2 class="cart-title">Carrito</h2>
+        
+        <div class="cart-layout">
+            <div class="cart-table-container">
+                <table class="cart-table">
+                    <thead>
+                        <tr>
+                            <th class="product-name">PRODUCTO</th>
+                            <th class="product-total">TOTAL</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cart-items-body">
+                        </tbody>
+                </table>
+            </div>
 
-        <div class="checkout-right" id="order-summary">
-            <h3>Resumen del pedido</h3>
-            <div id="cart-items"></div>
-            <hr>
-            <div class="total-row">
-                <span>Total:</span>
-                <span id="final-price">0.00 €</span>
+            <div class="cart-totals">
+                <h3>TOTALES DEL CARRITO</h3>
+                <div class="coupon-section">
+                    <span>Añadir cupones</span>
+                    <span class="arrow">∨</span>
+                </div>
+                <div class="total-row">
+                    <span class="total-label">Total estimado</span>
+                    <span class="total-amount" id="cart-final-total">0,00 €</span>
+                </div>
+                <button class="btn-checkout" onclick="location.href='finalizar-compra.html'">Finalizar compra</button>
             </div>
         </div>
     </main>
 
+    <footer>
+        <div class="container">
+            <p>Todos los derechos © 2026 Mundo Fútbol | Funciona gracias a Tema Astra para WordPress</p>
+        </div>
+    </footer>
+
     <script>
         function renderCart() {
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            let container = document.getElementById('cart-items');
+            let cart = JSON.parse(localStorage.getItem('futbolCart')) || [];
+            let tbody = document.getElementById('cart-items-body');
+            let totalDisplay = document.getElementById('cart-final-total');
             let total = 0;
-            container.innerHTML = '';
+            tbody.innerHTML = '';
+
+            if (cart.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="2">Tu carrito está vacío.</td></tr>';
+            }
 
             cart.forEach((item, index) => {
                 total += item.price;
-                container.innerHTML += `
-                    <div class="cart-item">
-                        <img src="${item.img}" width="50">
-                        <span>${item.name}</span>
-                        <span>${item.price} €</span>
-                    </div>`;
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="product-info">
+                            <img src="${item.img}" class="cart-thumb">
+                            <div class="details">
+                                <a href="#" class="item-name">${item.name}</a>
+                                <p class="item-price">${item.price.toFixed(2).replace('.', ',')} €</p>
+                                <p class="item-desc">Poster del nuevo fichaje.</p>
+                                <div class="qty-control">
+                                    <button>-</button> <input type="text" value="1"> <button>+</button>
+                                    <span class="delete-icon" onclick="removeItem(${index})">🗑</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="product-total-val">${item.price.toFixed(2).replace('.', ',')} €</td>
+                    </tr>`;
             });
-            document.getElementById('final-price').innerText = total.toFixed(2) + ' €';
+            totalDisplay.innerText = total.toFixed(2).replace('.', ',') + ' €';
         }
 
-        document.getElementById('payment-form').onsubmit = (e) => {
-            e.preventDefault();
-            alert("¡Pago procesado con éxito! Gracias por tu compra en Mundo Fútbol.");
-            localStorage.removeItem('cart');
-            location.href = 'index.html';
-        };
+        function removeItem(index) {
+            let cart = JSON.parse(localStorage.getItem('futbolCart')) || [];
+            cart.splice(index, 1);
+            localStorage.setItem('futbolCart', JSON.stringify(cart));
+            renderCart();
+        }
 
         window.onload = renderCart;
     </script>
