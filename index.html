@@ -2,10 +2,29 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tienda - Mundo Fútbol</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <div id="wp-admin-bar-sim">
+        <div class="left">
+            <span class="icon">w</span>
+            <span>Mundo Fútbol <span class="status">Visible</span></span>
+            <span class="icon">P</span>
+            <span class="icon">1</span>
+            <span class="icon">0</span>
+            <span class="icon">+</span>
+            <span>Editar la página</span>
+            <span>Simply Static</span>
+        </div>
+        <div class="right">
+            <span>Hola, Toni</span>
+            <span class="icon">S</span>
+        </div>
+    </div>
+
     <div id="cookie-banner" class="cookie-overlay">
         <div class="cookie-box">
             <p>Utilizamos cookies para mejorar su experiencia futbolística. ¿Aceptas?</p>
@@ -14,63 +33,95 @@
     </div>
 
     <header>
-        <div class="container">
-            <h1 class="logo" onclick="location.href='index.html'" style="cursor:pointer">Mundo Fútbol</h1>
+        <div class="container header-container">
+            <h1 class="logo" onclick="location.href='index.html'">Mundo Fútbol</h1>
             <nav>
                 <ul>
                     <li><a href="carrito.html">Carrito (<span id="cart-count">0</span>)</a></li>
+                    <li><a href="#">Finalizar compra</a></li>
+                    <li><a href="#">Mi cuenta</a></li>
                     <li><a href="index.html">Tienda</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <main class="container">
+    <main class="container main-content">
+        <p class="breadcrumb">Inicio / Tienda</p>
         <h2 class="page-title">Tienda</h2>
+        <p class="results-meta">Mostrando los 3 resultados</p>
+
         <section class="products-grid">
             <div class="product-card">
-                <img src="arespro.jpg.PNG">
-                <h3>Fichaje Arespro Getafe</h3>
-                <p class="price">15.00 €</p>
+                <div class="product-image-wrapper">
+                    <img src="arespro.jpg" alt="Fichaje Arespro Getafe">
+                </div>
+                <div class="product-meta">
+                    <p class="product-category">Sin categorizar</p>
+                    <h3 class="product-title">Fichaje Arespro Getafe</h3>
+                    <p class="product-price">15.00 €</p>
+                </div>
                 <button class="btn-add" onclick="addToCart('Fichaje Arespro Getafe', 15.00, 'arespro.jpg')">Añadir al carrito</button>
             </div>
+
             <div class="product-card">
-                <img src="tung.jpg.png">
-                <h3>Fichaje Tung</h3>
-                <p class="price">33.00 €</p>
+                <div class="product-image-wrapper">
+                    <img src="tung.jpg" alt="Fichaje Tung">
+                </div>
+                <div class="product-meta">
+                    <p class="product-category">Sin categorizar</p>
+                    <h3 class="product-title">Fichaje Tung</h3>
+                    <p class="product-price">33.00 €</p>
+                </div>
                 <button class="btn-add" onclick="addToCart('Fichaje Tung', 33.00, 'tung.jpg')">Añadir al carrito</button>
             </div>
+
             <div class="product-card">
-                <img src="cadiz.jpg.png">
-                <h3>Poster fichaje Cádiz</h3>
-                <p class="price">10.67 €</p>
+                <div class="product-image-wrapper">
+                    <img src="cadiz.jpg" alt="Poster fichaje Cádiz">
+                </div>
+                <div class="product-meta">
+                    <p class="product-category">Sin categorizar</p>
+                    <h3 class="product-title">Poster fichaje Cádiz</h3>
+                    <p class="product-price">10.67 €</p>
+                </div>
                 <button class="btn-add" onclick="addToCart('Poster fichaje Cádiz', 10.67, 'cadiz.jpg')">Añadir al carrito</button>
             </div>
         </section>
     </main>
 
+    <footer>
+        <div class="container">
+            <p>Todos los derechos © 2026 Mundo Fútbol | Funciona gracias a Tema Astra para WordPress</p>
+        </div>
+    </footer>
+
     <script>
+        // Función de Carrito: Guarda productos en localStorage
         function addToCart(name, price, img) {
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let cart = JSON.parse(localStorage.getItem('futbolCart')) || [];
             cart.push({name, price, img});
-            localStorage.setItem('cart', JSON.stringify(cart));
+            localStorage.setItem('futbolCart', JSON.stringify(cart));
             updateCount();
-            alert("¡Producto añadido!");
+            alert(`¡${name} añadido al carrito!`);
         }
 
+        // Actualiza el número de productos en el menú
         function updateCount() {
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let cart = JSON.parse(localStorage.getItem('futbolCart')) || [];
             document.getElementById('cart-count').innerText = cart.length;
         }
 
+        // Función de Cookies
         function acceptCookies() {
             document.getElementById('cookie-banner').style.display = 'none';
-            localStorage.setItem('cookiesAccepted', 'true');
+            localStorage.setItem('cookiesAcceptedFutbol', 'true');
         }
 
+        // Al cargar la página: comprueba cookies y carrito
         window.onload = () => {
             updateCount();
-            if(localStorage.getItem('cookiesAccepted')) document.getElementById('cookie-banner').style.display = 'none';
+            if(localStorage.getItem('cookiesAcceptedFutbol')) document.getElementById('cookie-banner').style.display = 'none';
         }
     </script>
 </body>
