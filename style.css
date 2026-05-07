@@ -1,6 +1,5 @@
 /* --- VARIABLES Y RESET --- */
 :root {
-    --wp-admin-bar: #1d2327;
     --astra-blue: #0073aa;
     --text-color: #333;
     --border-color: #e6e6e6;
@@ -9,46 +8,31 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
     margin: 0;
-    padding-top: 32px; /* Espacio para la barra de admin */
+    padding: 0; /* Eliminado el espacio de la barra negra */
     color: var(--text-color);
     background-color: #fff;
     -webkit-font-smoothing: antialiased;
 }
 
-/* --- BARRA SIMULADA DE WP ADMIN --- */
-#wp-admin-bar-sim {
-    background-color: var(--wp-admin-bar);
-    height: 32px;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 10000;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    padding: 0 15px;
-    font-size: 13px;
-    box-sizing: border-box;
+/* --- OCULTAR ELEMENTOS ANTIGUOS (Barra Admin y Cookies) --- */
+#wp-admin-bar-sim, 
+#cookie-banner, 
+.cookie-overlay {
+    display: none !important;
 }
 
-#wp-admin-bar-sim .left, #wp-admin-bar-sim .right { display: flex; gap: 15px; align-items: center; }
-#wp-admin-bar-sim span.icon { color: #888; font-family: dashicons; }
-#wp-admin-bar-sim a { text-decoration: none; color: #fff; }
-#wp-admin-bar-sim span.status { color: #fff; font-weight: bold; }
-
-/* --- CONTENEDOR PRINCIPAL CON MÁRGENES GRANDES --- */
+/* --- CONTENEDOR PRINCIPAL --- */
 .container {
-    max-width: 900px; /* Estrecho como en tu captura */
+    max-width: 900px; 
     margin: 0 auto;
     padding: 0 20px;
 }
 
-/* --- HEADER Y MENÚ (Como Astra) --- */
+/* --- HEADER Y MENÚ --- */
 header {
     background: #fff;
-    padding: 15px 0;
+    padding: 25px 0; /* Un poco más de aire arriba */
     border-bottom: 1px solid var(--border-color);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
 }
 
 .header-container {
@@ -83,7 +67,7 @@ nav a {
 
 /* --- CONTENIDO PRINCIPAL --- */
 .main-content {
-    padding: 60px 0; /* Mucha separación superior */
+    padding: 40px 0 80px 0;
 }
 
 .breadcrumb {
@@ -105,12 +89,11 @@ h2.page-title {
     margin-bottom: 30px;
 }
 
-/* --- GRID DE PRODUCTOS (Estilo Astra con Márgenes) --- */
+/* --- GRID DE PRODUCTOS --- */
 .products-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 30px;
-    padding-bottom: 80px;
 }
 
 .product-card {
@@ -118,18 +101,16 @@ h2.page-title {
     text-align: left;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 }
 
 .product-image-wrapper {
     width: 100%;
     margin-bottom: 15px;
-    text-align: left;
 }
 
 .product-card img {
-    max-width: 100%; /* Imágenes pequeñas y contenidas */
-    height: auto;
+    width: 100%;
+    height: 250px; /* Tamaño fijo para que todas las fichas sean iguales */
     object-fit: cover;
     border-radius: 2px;
     border: 1px solid rgba(0,0,0,0.05);
@@ -155,80 +136,31 @@ h2.page-title {
     margin-bottom: 15px;
 }
 
-/* --- BOTÓN AÑADIR (Calca de Astra) --- */
+/* --- BOTÓN AÑADIR --- */
 .btn-add {
     background-color: var(--astra-blue);
     color: #fff;
     border: none;
-    padding: 8px 18px;
+    padding: 10px 20px;
     font-size: 13px;
     font-weight: 600;
     border-radius: 3px;
     cursor: pointer;
-    text-transform: none;
-    letter-spacing: normal;
-    width: fit-content; /* Pequeño, no ocupa todo el ancho */
+    width: fit-content;
 }
 
 .btn-add:hover {
     background-color: #005177;
 }
 
-/* --- COOKIES ESTILO PLUGIN --- */
-.cookie-overlay {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    right: 20px;
-    z-index: 99999;
-}
-
-.cookie-box {
-    background: #333;
-    color: white;
-    padding: 15px 20px;
-    border-radius: 5px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 13px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-
-.cookie-box button {
-    background: var(--astra-blue);
-    color: white;
-    border: none;
-    padding: 6px 15px;
-    cursor: pointer;
-    border-radius: 3px;
-    font-weight: bold;
-}
-
-/* --- FOOTER MINIMALISTA --- */
-footer {
-    border-top: 1px solid var(--border-color);
-    padding: 25px 0;
-    font-size: 12px;
-    color: #888;
-    text-align: center;
-}
-
-/* --- DISEÑO ESPECÍFICO DEL CARRITO --- */
-.cart-title {
-    font-size: 32px;
-    margin-bottom: 40px;
-    color: #2c3338;
-}
-
+/* --- DISEÑO DEL CARRITO --- */
 .cart-layout {
     display: flex;
-    gap: 50px;
-    align-items: flex-start;
+    gap: 40px;
 }
 
 .cart-table-container { flex: 2; }
-.cart-totals { flex: 1; border: 1px solid #e6e6e6; padding: 25px; }
+.cart-totals { flex: 1; border: 1px solid #e6e6e6; padding: 25px; background: #fff; }
 
 .cart-table {
     width: 100%;
@@ -246,36 +178,25 @@ footer {
 .product-info {
     display: flex;
     gap: 20px;
-    padding: 25px 0;
+    padding: 20px 0;
 }
 
-.cart-thumb { width: 80px; height: 80px; object-fit: cover; }
+.cart-thumb { width: 70px; height: 70px; object-fit: cover; border-radius: 4px; }
 
-.item-name { color: var(--astra-blue); text-decoration: none; font-weight: 500; font-size: 15px; }
-.item-price { margin: 5px 0; font-size: 14px; }
-.item-desc { font-size: 12px; color: #888; margin-bottom: 10px; }
+.item-name { color: var(--astra-blue); text-decoration: none; font-weight: 500; }
 
-.qty-control { display: flex; align-items: center; gap: 10px; }
-.qty-control input { width: 30px; text-align: center; border: 1px solid #ddd; padding: 3px; }
-.delete-icon { cursor: pointer; color: #ccc; margin-left: 10px; }
+.delete-icon { cursor: pointer; font-size: 18px; margin-top: 10px; display: inline-block; }
 
-.product-total-val { text-align: right; font-weight: 500; vertical-align: top; padding-top: 25px; }
-
-/* TOTALES LATERALES */
-.cart-totals h3 { font-size: 14px; color: #666; margin-top: 0; padding-bottom: 15px; border-bottom: 1px solid #e6e6e6; }
-.coupon-section { display: flex; justify-content: space-between; padding: 15px 0; font-size: 14px; color: #333; cursor: pointer; }
+/* TOTALES */
+.cart-totals h3 { font-size: 16px; margin-top: 0; padding-bottom: 15px; border-bottom: 1px solid #eee; }
 
 .total-row {
     display: flex;
     justify-content: space-between;
-    align-items: center;
     padding: 20px 0;
-    margin-top: 20px;
-    border-top: 1px solid #e6e6e6;
+    font-weight: bold;
+    font-size: 18px;
 }
-
-.total-label { font-size: 20px; color: #333; }
-.total-amount { font-size: 20px; font-weight: 700; color: #333; }
 
 .btn-checkout {
     background-color: var(--astra-blue);
@@ -283,73 +204,36 @@ footer {
     width: 100%;
     padding: 15px;
     border: none;
-    border-radius: 3px;
-    font-weight: 700;
-    font-size: 16px;
+    border-radius: 4px;
+    font-weight: bold;
     cursor: pointer;
-    margin-top: 10px;
 }
 
-/* --- ESTILOS FINALIZAR COMPRA --- */
+/* --- FINALIZAR COMPRA --- */
 .checkout-layout {
     display: flex;
     gap: 40px;
-    align-items: flex-start;
 }
 
 .checkout-fields { flex: 2; }
-.order-summary-box { 
-    flex: 1; 
-    border: 1px solid #e6e6e6; 
-    padding: 25px; 
-    background: #fcfcfc;
-    border-radius: 4px;
-}
-
-.checkout-fields h3 { font-size: 18px; margin: 30px 0 15px 0; font-weight: 600; }
+.order-summary-box { flex: 1; border: 1px solid #e6e6e6; padding: 25px; background: #fafafa; }
 
 .field-group { margin-bottom: 15px; }
-.field-group label { display: block; font-size: 13px; margin-bottom: 5px; color: #444; }
+.field-group label { display: block; font-size: 13px; margin-bottom: 5px; }
 .field-group input, .field-group select {
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
-    border-radius: 3px;
-    box-sizing: border-box;
+    border-radius: 4px;
 }
 
 .field-row { display: flex; gap: 15px; }
-.field-row .field-group { flex: 1; }
 
-.add-extra { color: var(--astra-blue); font-size: 13px; cursor: pointer; margin: 5px 0 20px 0; }
-
-/* RESUMEN DE PEDIDO */
-.summary-item { display: flex; gap: 15px; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee; }
-.summary-img { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; }
-.summary-name { font-size: 14px; margin: 0; font-weight: 500; }
-.summary-price { font-size: 13px; color: #666; margin: 3px 0 0 0; }
-
-.summary-row { display: flex; justify-content: space-between; padding: 10px 0; font-size: 14px; }
-.summary-row.total { font-size: 18px; font-weight: 700; border-top: 1px solid #ddd; margin-top: 10px; }
-
-/* PAGO CON TARJETA */
-.card-payment-box {
-    background: #f9f9f9;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-.card-inputs input { margin-top: 10px; width: 100%; padding: 10px; border: 1px solid #ccc; }
-
-.btn-order {
-    background-color: var(--astra-blue);
-    color: white;
-    width: 100%;
-    padding: 18px;
-    border: none;
-    font-weight: 700;
-    margin-top: 30px;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 4px;
+/* FOOTER */
+footer {
+    border-top: 1px solid var(--border-color);
+    padding: 30px 0;
+    font-size: 12px;
+    color: #888;
+    text-align: center;
 }
