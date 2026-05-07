@@ -8,7 +8,10 @@
 <body class="checkout-page">
 
     <div id="wp-admin-bar-sim">
-        <div class="left"><span>Mundo Fútbol</span> <span>Editar la página</span></div>
+        <div class="left">
+            <span>Mundo Fútbol</span>
+            <span style="margin-left:15px;">Editar la página</span>
+        </div>
         <div class="right">Hola, Toni</div>
     </div>
 
@@ -83,15 +86,15 @@
                     </div>
                 </div>
 
-                <div class="payment-methods">
+                <div class="payment-methods" style="margin-top:40px;">
                     <h3>Opciones de pago</h3>
                     <div class="card-payment-box">
-                        <label>Tarjeta de crédito / débito</label>
+                        <label style="font-weight:bold; display:block; margin-bottom:10px;">Tarjeta de crédito / débito</label>
                         <div class="card-inputs">
-                            <input type="text" placeholder="Número de tarjeta" maxlength="16">
+                            <input type="text" placeholder="Número de tarjeta (16 dígitos)" maxlength="16" style="margin-bottom:10px;">
                             <div class="field-row">
-                                <input type="text" placeholder="MM/AA" style="width: 50%;">
-                                <input type="text" placeholder="CVC" style="width: 50%;">
+                                <input type="text" placeholder="MM/AA" style="width: 48%;">
+                                <input type="text" placeholder="CVC" style="width: 48%;">
                             </div>
                         </div>
                     </div>
@@ -104,45 +107,71 @@
                 <h3>Resumen del pedido</h3>
                 <div id="summary-items">
                     </div>
+                
+                <div class="coupon-section" style="border-top: 1px solid #eee; margin-top:15px;">
+                    <span>Añadir cupones</span>
+                    <span>∨</span>
+                </div>
+
                 <div class="summary-row">
                     <span>Subtotal</span>
                     <span id="subtotal-val">0,00 €</span>
                 </div>
                 <div class="summary-row total">
                     <span>Total</span>
-                    <span id="total-val">0,00 €</span>
+                    <span id="total-val" style="font-size: 24px;">0,00 €</span>
                 </div>
             </div>
         </form>
     </main>
 
+    <footer>
+        <div class="container">
+            <p>Todos los derechos © 2026 Mundo Fútbol | Funciona gracias a Tema Astra para WordPress</p>
+        </div>
+    </footer>
+
     <script>
         function loadSummary() {
+            // Buscamos el mismo carrito que usa el Index y el Carrito
             let cart = JSON.parse(localStorage.getItem('futbolCart')) || [];
             let container = document.getElementById('summary-items');
+            let subtotalDisplay = document.getElementById('subtotal-val');
+            let totalDisplay = document.getElementById('total-val');
             let totalVal = 0;
+            
             container.innerHTML = '';
+
+            if (cart.length === 0) {
+                container.innerHTML = '<p style="font-size:13px; color:#888;">No hay productos.</p>';
+            }
 
             cart.forEach(item => {
                 totalVal += item.price;
+                // Estructura idéntica a tu captura image_df2111.png
                 container.innerHTML += `
-                    <div class="summary-item">
-                        <img src="${item.img}" class="summary-img">
-                        <div class="summary-info">
-                            <p class="summary-name">${item.name}</p>
-                            <p class="summary-price">${item.price.toFixed(2).replace('.', ',')} €</p>
+                    <div class="summary-item" style="display:flex; gap:15px; margin-bottom:15px; align-items:center;">
+                        <div style="position:relative;">
+                            <img src="${item.img}" style="width:50px; height:50px; border-radius:4px; object-fit:cover; border:1px solid #ddd;">
+                            <span style="position:absolute; top:-8px; right:-8px; background:#666; color:white; border-radius:50%; width:18px; height:18px; font-size:10px; display:flex; align-items:center; justify-content:center;">1</span>
                         </div>
+                        <div style="flex:1;">
+                            <p style="margin:0; font-size:14px; font-weight:500;">${item.name}</p>
+                            <p style="margin:2px 0 0 0; font-size:12px; color:#777;">Poster del nuevo fichaje.</p>
+                        </div>
+                        <div style="font-size:14px; font-weight:500;">${item.price.toFixed(2).replace('.', ',')} €</div>
                     </div>`;
             });
 
-            document.getElementById('subtotal-val').innerText = totalVal.toFixed(2).replace('.', ',') + ' €';
-            document.getElementById('total-val').innerText = totalVal.toFixed(2).replace('.', ',') + ' €';
+            subtotalDisplay.innerText = totalVal.toFixed(2).replace('.', ',') + ' €';
+            totalDisplay.innerText = totalVal.toFixed(2).replace('.', ',') + ' €';
         }
 
+        // Simular envío
         document.getElementById('order-form').onsubmit = (e) => {
             e.preventDefault();
-            alert("¡Pedido realizado con éxito! Gracias por comprar en Mundo Fútbol.");
-            localStorage.removeItem('futbolCart');
+            alert("¡Pedido realizado con éxito!");
+            localStorage.removeItem('futbolCart'); // Vaciamos al terminar
             location.href = 'index.html';
         };
 
