@@ -76,22 +76,28 @@
             tbody.innerHTML = '';
 
             if (cart.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="2">Tu carrito está vacío.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="2" style="padding: 20px;">Tu carrito está vacío. <a href="index.html">Volver a la tienda</a></td></tr>';
+                totalDisplay.innerText = '0,00 €';
+                return;
             }
 
             cart.forEach((item, index) => {
                 total += item.price;
+                
+                // CORRECCIÓN DE IMAGEN: Si falla la ruta, busca en la carpeta /fotos/
                 tbody.innerHTML += `
                     <tr>
                         <td class="product-info">
-                            <img src="${item.img}" class="cart-thumb">
+                            <img src="${item.img}" class="cart-thumb" onerror="this.src='fotos/${item.img.split('/').pop()}';">
                             <div class="details">
                                 <a href="#" class="item-name">${item.name}</a>
                                 <p class="item-price">${item.price.toFixed(2).replace('.', ',')} €</p>
                                 <p class="item-desc">Poster del nuevo fichaje.</p>
                                 <div class="qty-control">
-                                    <button>-</button> <input type="text" value="1"> <button>+</button>
-                                    <span class="delete-icon" onclick="removeItem(${index})">🗑</span>
+                                    <button type="button" onclick="alert('Funcionalidad de cantidad en desarrollo')">-</button> 
+                                    <input type="text" value="1" readonly> 
+                                    <button type="button" onclick="alert('Funcionalidad de cantidad en desarrollo')">+</button>
+                                    <span class="delete-icon" onclick="removeItem(${index})" title="Eliminar">🗑</span>
                                 </div>
                             </div>
                         </td>
@@ -106,6 +112,8 @@
             cart.splice(index, 1);
             localStorage.setItem('futbolCart', JSON.stringify(cart));
             renderCart();
+            // Actualizamos el contador si tienes uno en el header
+            if(window.updateCount) window.updateCount();
         }
 
         window.onload = renderCart;
